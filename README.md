@@ -15,7 +15,10 @@ OdinUP handles the toolchain. You write the code.
 4. Command Reference
 5. The Wrapper System Logic
 6. Project Anatomy
-7. Troubleshooting
+7. Contributing
+8. Community
+9. License
+10. Troubleshooting
 
 ## The Architecture
 
@@ -192,6 +195,28 @@ The codebase splits into eight distinct files. This modularity ensures that netw
 * **install.odin:** Matches hardware signatures to GitHub assets and manages the download pipeline.
 * **download.odin:** Spawns curl and extraction shell commands for network operations.
 * **utils.odin:** Houses the run_command abstraction and the wrapper script generator.
+
+## Contributing
+
+OdinUP welcomes contributions of all kinds — bug fixes, documentation improvements, platform testing, and feature ideas.
+
+Read the full [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request. It covers the development workflow, branch naming, commit message format, and our policy on AI usage in contributions.
+
+## Community
+
+| Document | Description |
+|----------|-------------|
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute code, docs, and ideas |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community behavior standards |
+| [SECURITY.md](SECURITY.md) | How to report vulnerabilities responsibly |
+| [CHANGELOG.md](CHANGELOG.md) | Full history of releases and changes |
+| [SUPPORT.md](SUPPORT.md) | Where to get help and how to report bugs |
+
+## License
+
+OdinUP is released under the **Apache License 2.0**.
+
+You are free to use, modify, and distribute this software for any purpose — personal, commercial, or open source — as long as you include the original license and attribution notice. See the [LICENSE](LICENSE) file for the full terms.
 
 ## Troubleshooting
 
