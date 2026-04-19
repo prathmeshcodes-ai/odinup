@@ -11,7 +11,7 @@ Write-Color "The Native Odin Version Manager`n" -Color DarkGray
 
 # 1. System Profiling
 $Arch = if ($env:PROCESSOR_ARCHITECTURE -match "ARM") { "arm64" } else { "amd64" }
-$Target = "odinup-windows-$Arch.tar.gz"
+$Target = "odinup-windows-$Arch.zip"
 Write-Host "🔎 Detected System: " -NoNewline; Write-Color "windows-$Arch" -Color Cyan
 
 # 2. Interrogate GitHub API
@@ -70,10 +70,10 @@ New-Item -ItemType Directory -Force -Path $TmpDir | Out-Null
 Set-Location $TmpDir
 
 Write-Host "📦 Downloading $Target..."
-Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile "odinup.tar.gz"
+Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile "odinup.zip"
 
 Write-Host "📂 Extracting archive..."
-tar.exe -xzf odinup.tar.gz
+Expand-Archive -Path "odinup.zip" -DestinationPath . -Force
 
 # 5. Binary Placement & State Update
 if (-not (Test-Path $BinDir)) { New-Item -ItemType Directory -Force -Path $BinDir | Out-Null }

@@ -17,8 +17,8 @@ echo -e "${DIM}The Native Odin Version Manager${RESET}\n"
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 
-if[ "$ARCH" = "x86_64" ]; then ARCH="amd64"; fi
-if[ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then ARCH="arm64"; fi
+if [ "$ARCH" = "x86_64" ]; then ARCH="amd64"; fi
+if [ "$ARCH" = "aarch64" ] ||[ "$ARCH" = "arm64" ]; then ARCH="arm64"; fi
 
 TARGET="odinup-${OS}-${ARCH}.tar.gz"
 echo -e "🔎 Detected System: ${CYAN}${OS}-${ARCH}${RESET}"
@@ -31,7 +31,7 @@ API_RESPONSE=$(curl -s "$REPO_API")
 LATEST_TAG=$(echo "$API_RESPONSE" | grep -m 1 '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 DOWNLOAD_URL=$(echo "$API_RESPONSE" | grep -m 1 "browser_download_url.*$TARGET" | sed -E 's/.*"([^"]+)".*/\1/')
 
-if [ -z "$LATEST_TAG" ] ||[ -z "$DOWNLOAD_URL" ]; then
+if [ -z "$LATEST_TAG" ] || [ -z "$DOWNLOAD_URL" ]; then
     echo -e "${RED}✖ Error: Could not find a release asset for $TARGET.${RESET}"
     exit 1
 fi
@@ -42,7 +42,7 @@ BIN_DIR="$ODINUP_HOME/bin"
 VERSION_FILE="$ODINUP_HOME/.version"
 UPDATING=false
 
-if [ -f "$BIN_DIR/odinup" ]; then
+if[ -f "$BIN_DIR/odinup" ]; then
     LOCAL_VERSION="unknown"
     if[ -f "$VERSION_FILE" ]; then
         LOCAL_VERSION=$(cat "$VERSION_FILE")
@@ -56,7 +56,7 @@ if [ -f "$BIN_DIR/odinup" ]; then
         echo -e "\n${YELLOW}✨ A new version of OdinUP is available!${RESET}"
         echo -e "Current: ${RED}$LOCAL_VERSION${RESET} -> Latest: ${GREEN}$LATEST_TAG${RESET}"
         
-        read -p "Do you want to update now?[y/N]: " choice
+        read -p "Do you want to update now? [y/N]: " choice
         case "$choice" in 
             y|Y ) echo -e "\n${CYAN}Proceeding with update...${RESET}"; UPDATING=true;;
             * ) echo -e "Update aborted."; exit 0;;
@@ -113,7 +113,7 @@ cd "$HOME"
 rm -rf "$TMP_DIR"
 
 echo -e "\n${BOLD}${GREEN}✨ OdinUP $LATEST_TAG successfully installed!${RESET}"
-if [ "$UPDATING" = false ]; then
+if[ "$UPDATING" = false ]; then
     echo -e "Restart your terminal, or run: ${CYAN}source ~/.bashrc${RESET}"
 fi
 echo -e "Type ${CYAN}odinup help${RESET} to get started."
