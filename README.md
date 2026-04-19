@@ -49,7 +49,10 @@ Run the executable once. This generates the hidden `.odinup` directory structure
 OdinUP installs all versions into isolated directories. It exposes a single, static binary path for your terminal. Add this path to your system environment variables.
 
 For Linux and macOS, open your shell profile (`~/.bashrc` or `~/.zshrc`) and append:
-`export PATH="$HOME/.odinup/bin:$PATH"`
+
+```bash
+export PATH="$HOME/.odinup/bin:$PATH"
+```
 
 Reload your shell. 
 
@@ -62,28 +65,43 @@ The command-line interface uses strict, readable output. Color-coded syntax prev
 ### odinup list-remote (lr)
 Queries the official Odin repository. Prints a chronological list of every available release tag.
 
-**Input:** `./odinup lr`
+**Input:** 
+
+```bash
+./odinup lr
+```
 
 **Output:** A descending list from the latest nightly build down to older legacy versions.
 
-### odinup install <version> (i)
+### odinup install `<version>` (i)
 Locates the specific binary for your exact OS and CPU architecture. Downloads it and extracts the payload into your local version registry.
 
-**Input:** `./odinup i dev-2026-04`
+**Input:** 
+
+```bash
+./odinup i dev-2026-04
+```
 
 **Output:** Progress bar execution followed by extraction verification.
 
 ### odinup list (ls)
 Prints all locally installed compilers. The currently active version is marked with a star and a bold green indicator.
 
-**Input:** `./odinup ls`
+**Input:** 
+
+```bash
+./odinup ls
+```
 
 **Output:** Your local roster, highlighting the active toolchain.
 
-### odinup use <version> (u)
+### odinup use `<version>` (u)
 Swaps the active compiler. This command generates the execution shim.
 
-**Input:** `./odinup use dev-2026-04`
+**Input:** 
+```bash
+./odinup use dev-2026-04
+```
 
 **Output:** Success confirmation. Your terminal now utilizes the specified version.
 
