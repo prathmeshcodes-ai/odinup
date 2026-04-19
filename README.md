@@ -86,6 +86,14 @@ For Windows, add `%USERPROFILE%\.odinup\bin` to your System PATH variables via t
 
 The CLI is colorful and readable.
 
+### odinup help
+
+Prints the Help Menu of **OdinUP**.
+
+```bash
+odinup help
+```
+
 ### odinup list-remote (lr)
 
 Fetchs the official Odin and Ols repos, then prints the versions list.
