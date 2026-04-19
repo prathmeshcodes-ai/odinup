@@ -5,76 +5,148 @@ import "core:os"
 import "core:strings"
 import "core:path/filepath"
 
-list_local :: proc() {
-    f, err := os.open(cfg.versions_dir)
-    if err != os.ERROR_NONE {
-        fmt.eprintf("%s✖ Failed to open versions directory%s\n", RED, RESET)
-        return
-    }
-    defer os.close(f)
+list_local :: proc(ols: bool) {
+    if ols {
+        f, err := os.open(cfg.versions_dir)
+        if err != os.ERROR_NONE {
+            fmt.eprintf("%s✖ Failed to open versions directory%s\n", RED, RESET)
+            return
+        }
+        defer os.close(f)
 
-    fi, read_err := os.read_dir(f, -1, context.allocator)
-    if read_err != os.ERROR_NONE {
-        fmt.eprintf("%s✖ Failed to read versions directory%s\n", RED, RESET)
-        return
-    }
+        fi, read_err := os.read_dir(f, -1, context.allocator)
+        if read_err != os.ERROR_NONE {
+            fmt.eprintf("%s✖ Failed to read versions directory%s\n", RED, RESET)
+            return
+        }
 
-    // Determine currently active version
-    active_version := ""
-    wrapper_name := "odin"
-    if ODIN_OS == .Windows do wrapper_name = "odin.bat"
-    
-    wrapper_path, _ := filepath.join([]string{cfg.bin_dir, wrapper_name}, context.allocator)
-    if wrapper_data, w_err := os.read_entire_file_from_path(wrapper_path, context.allocator); w_err == nil {
-        wrapper_content := string(wrapper_data)
-        for info in fi {
-            if os.is_dir(info.fullpath) && strings.contains(wrapper_content, info.name) {
-                active_version = info.name
-                break
+        // Determine currently active version
+        active_version := ""
+        wrapper_name := "ols"
+        if ODIN_OS == .Windows do wrapper_name = "ols.bat"
+        
+        wrapper_path, _ := filepath.join([]string{cfg.bin_dir, wrapper_name}, context.allocator)
+        if wrapper_data, w_err := os.read_entire_file_from_path(wrapper_path, context.allocator); w_err == nil {
+            wrapper_content := string(wrapper_data)
+            for info in fi {
+                if os.is_dir(info.fullpath) && strings.contains(wrapper_content, info.name) {
+                    active_version = info.name
+                    break
+                }
             }
         }
-    }
 
-    fmt.printf("%s📦 Installed versions:%s\n", BOLD, RESET)
-    if len(fi) == 0 {
-        fmt.println("  (none)")
-        return
-    }
+        fmt.printf("%s📦 Installed versions:%s\n", BOLD, RESET)
+        if len(fi) == 0 {
+            fmt.println("  (none)")
+            return
+        }
 
-    for info in fi {
-        if os.is_dir(info.fullpath) {
-            if info.name == active_version {
-                fmt.printf("  %s%s ★ %s (Active)%s\n", GREEN, BOLD, info.name, RESET)
-            } else {
-                fmt.printf("    %s\n", info.name)
+        for info in fi {
+            if os.is_dir(info.fullpath) {
+                if info.name == active_version {
+                    fmt.printf("  %s%s ★ %s (Active)%s\n", GREEN, BOLD, info.name, RESET)
+                } else {
+                    fmt.printf("    %s\n", info.name)
+                }
+            }
+        }
+    } else {
+        f, err := os.open(cfg.versions_dir)
+        if err != os.ERROR_NONE {
+            fmt.eprintf("%s✖ Failed to open versions directory%s\n", RED, RESET)
+            return
+        }
+        defer os.close(f)
+
+        fi, read_err := os.read_dir(f, -1, context.allocator)
+        if read_err != os.ERROR_NONE {
+            fmt.eprintf("%s✖ Failed to read versions directory%s\n", RED, RESET)
+            return
+        }
+
+        // Determine currently active version
+        active_version := ""
+        wrapper_name := "odin"
+        if ODIN_OS == .Windows do wrapper_name = "odin.bat"
+        
+        wrapper_path, _ := filepath.join([]string{cfg.bin_dir, wrapper_name}, context.allocator)
+        if wrapper_data, w_err := os.read_entire_file_from_path(wrapper_path, context.allocator); w_err == nil {
+            wrapper_content := string(wrapper_data)
+            for info in fi {
+                if os.is_dir(info.fullpath) && strings.contains(wrapper_content, info.name) {
+                    active_version = info.name
+                    break
+                }
+            }
+        }
+
+        fmt.printf("%s📦 Installed versions:%s\n", BOLD, RESET)
+        if len(fi) == 0 {
+            fmt.println("  (none)")
+            return
+        }
+
+        for info in fi {
+            if os.is_dir(info.fullpath) {
+                if info.name == active_version {
+                    fmt.printf("  %s%s ★ %s (Active)%s\n", GREEN, BOLD, info.name, RESET)
+                } else {
+                    fmt.printf("    %s\n", info.name)
+                }
             }
         }
     }
 }
 
-use_version :: proc(version: string) {
-    version_path, _ := filepath.join([]string{cfg.versions_dir, version}, context.allocator)
-    if !os.exists(version_path) {
-        fmt.eprintf("%s✖ Error: Version '%s' is not installed.%s\n", RED, version, RESET)
-        os.exit(1)
-    }
+use_version :: proc(version: string, ols: bool) {
+    if ols {
+        version_path, _ := filepath.join([]string{cfg.versions_dir, version}, context.allocator)
+        if !os.exists(version_path) {
+            fmt.eprintf("%s✖ Error: Version '%s' is not installed.%s\n", RED, version, RESET)
+            os.exit(1)
+        }
 
-    exe_name := "odin"
-    if ODIN_OS == .Windows {
-        exe_name = "odin.exe"
-    }
+        exe_name := "ols"
+        if ODIN_OS == .Windows {
+            exe_name = "ols.exe"
+        }
 
-    target_exe := find_executable(version_path, exe_name)
-    if target_exe == "" {
-        fmt.eprintf("%s✖ Error: Could not find Odin executable inside %s%s\n", RED, version_path, RESET)
-        os.exit(1)
-    }
+        target_exe := find_executable(version_path, exe_name)
+        if target_exe == "" {
+            fmt.eprintf("%s✖ Error: Could not find Ols executable inside %s%s\n", RED, version_path, RESET)
+            os.exit(1)
+        }
 
-    create_wrapper_script(target_exe)
-    
-    fmt.printf("%s%s✔ Successfully set Odin version to: %s%s\n", GREEN, BOLD, version, RESET)
-    fmt.printf("\n%sNOTE:%s If your terminal still shows the old version, run:\n", YELLOW, RESET)
-    fmt.printf("  %sexport PATH=\"$HOME/.odinup/bin:$PATH\"%s\n", CYAN, RESET)
+        create_wrapper_script(target_exe)
+        
+        fmt.printf("%s%s✔ Successfully set Ols version to: %s%s\n", GREEN, BOLD, version, RESET)
+        fmt.printf("\n%sNOTE:%s If your terminal still shows the ols version, run:\n", YELLOW, RESET)
+        fmt.printf("  %sexport PATH=\"$HOME/.odinup/bin:$PATH\"%s\n", CYAN, RESET)
+    } else {
+        version_path, _ := filepath.join([]string{cfg.versions_dir, version}, context.allocator)
+        if !os.exists(version_path) {
+            fmt.eprintf("%s✖ Error: Version '%s' is not installed.%s\n", RED, version, RESET)
+            os.exit(1)
+        }
+
+        exe_name := "odin"
+        if ODIN_OS == .Windows {
+            exe_name = "odin.exe"
+        }
+
+        target_exe := find_executable(version_path, exe_name)
+        if target_exe == "" {
+            fmt.eprintf("%s✖ Error: Could not find Odin executable inside %s%s\n", RED, version_path, RESET)
+            os.exit(1)
+        }
+
+        create_wrapper_script(target_exe)
+        
+        fmt.printf("%s%s✔ Successfully set Odin version to: %s%s\n", GREEN, BOLD, version, RESET)
+        fmt.printf("\n%sNOTE:%s If your terminal still shows the old version, run:\n", YELLOW, RESET)
+        fmt.printf("  %sexport PATH=\"$HOME/.odinup/bin:$PATH\"%s\n", CYAN, RESET)
+    }
 }
 
 find_executable :: proc(base_dir: string, exe_name: string) -> string {
