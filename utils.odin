@@ -24,6 +24,15 @@ ensure_dir :: proc(path: string) {
     }
 }
 
+check_clang_availability :: proc() -> bool {
+    when ODIN_OS == .Windows {
+        ret := run_command("clang --version >nul 2>&1")
+    } else {
+        ret := run_command("clang --version > /dev/null 2>&1")
+    }
+    return ret == 0
+}
+
 // Creates an executable shim in the bin/ folder pointing to the actual downloaded Odin compiler.
 // Using a wrapper script natively fixes relative path standard library ("core") resolution issues
 // compared to using symlinks, which differ greatly across OSs.

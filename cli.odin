@@ -6,7 +6,7 @@ import "core:fmt"
 
 
 
-// ANSI Color Codes for pretty CLI
+// ANSI Color Codes for pretty CLI 
 RESET  :: "\x1b[0m"
 BOLD   :: "\x1b[1m"
 RED    :: "\x1b[31m"
