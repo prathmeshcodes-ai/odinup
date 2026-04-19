@@ -36,9 +36,10 @@ check_clang_availability :: proc() -> bool {
 // Creates an executable shim in the bin/ folder pointing to the actual downloaded Odin compiler.
 // Using a wrapper script natively fixes relative path standard library ("core") resolution issues
 // compared to using symlinks, which differ greatly across OSs.
-create_wrapper_script :: proc(target_exe: string) {
+create_wrapper_script :: proc(target_exe: string, bin_name: string) {
+    bat_name := fmt.tprintf("%s.bat", bin_name)
     if ODIN_OS == .Windows {
-        bat_path, _ := filepath.join([]string{cfg.bin_dir, "odin.bat"}, context.allocator)
+        bat_path, _ := filepath.join([]string{cfg.bin_dir, bat_name}, context.allocator)
         
         // Pass all arguments natively in Windows Batch using %*
         content := fmt.tprintf("@echo off\n\"%s\" %%*\n", target_exe)
@@ -49,7 +50,7 @@ create_wrapper_script :: proc(target_exe: string) {
             os.exit(1)
         }
     } else {
-        sh_path, _ := filepath.join([]string{cfg.bin_dir, "odin"}, context.allocator)
+        sh_path, _  := filepath.join([]string{cfg.bin_dir, bin_name}, context.allocator)
         
         // Pass all arguments natively in POSIX Shell using "$@"
         content := fmt.tprintf("#!/bin/sh\nexec \"%s\" \"$@\"\n", target_exe)

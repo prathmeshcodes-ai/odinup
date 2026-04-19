@@ -7,7 +7,6 @@ import "core:strings"
 
 install_version :: proc(version: string, ols: bool) {
     if ols {
-        fmt.println("Ols")
         dest_dir, _ := filepath.join([]string{cfg.ols_dir, version}, context.allocator)
         if os.exists(dest_dir) {
             fmt.printf("%s✔ Version %s is already installed.%s\n", GREEN, version, RESET)
@@ -15,7 +14,7 @@ install_version :: proc(version: string, ols: bool) {
         }
 
         releases := fetch_releases_ols()
-        asset_url, asset_name := find_asset_for_platform(releases, version)
+        asset_url, asset_name := find_asset_for_platform(releases, version, true)
         
         if asset_url == "" {
             fmt.eprintf("%s✖ Error: Could not find a compatible binary for this OS/Arch for version %s%s\n", RED, version, RESET)
@@ -36,6 +35,11 @@ install_version :: proc(version: string, ols: bool) {
             extract_tar(tmp_archive, dest_dir)
         }
 
+        odinfmt_exe, _ := filepath.join([]string{dest_dir, fmt.tprintf("odinfmt-%s", ols_platform_string())}, context.allocator)
+        if os.exists(odinfmt_exe) {
+            create_wrapper_script(odinfmt_exe, "odinfmt")
+        }
+
         //fmt.printf("Successfully installed Ols %s!\n", version)
         fmt.printf("\n%s%sSuccessfully installed Ols %s!%s\n", GREEN, BOLD, version, RESET)
         fmt.printf("Type %sodinup use %s%s to activate it.\n", CYAN, version, RESET)
@@ -47,7 +51,7 @@ install_version :: proc(version: string, ols: bool) {
         }
 
         releases := fetch_releases()
-        asset_url, asset_name := find_asset_for_platform(releases, version)
+        asset_url, asset_name := find_asset_for_platform(releases, version, false)
         
         if asset_url == "" {
             fmt.eprintf("%s✖ Error: Could not find a compatible binary for this OS/Arch for version %s%s\n", RED, version, RESET)
@@ -74,15 +78,31 @@ install_version :: proc(version: string, ols: bool) {
     }
 }
 
-find_asset_for_platform :: proc(releases:[]Github_Release, version: string) -> (url: string, name: string) {
-    expected_os, expected_arch := platform_strings()
+find_asset_for_platform :: proc(releases: []Github_Release, version: string, ols := false) -> (url: string, name: string) {
+    expected_os, expected_arch := platform_strings(ols)
     
-    for rel in releases {
-        if rel.tag_name == version {
-            for asset in rel.assets {
-                lower_name := strings.to_lower(asset.name)
-                if strings.contains(lower_name, expected_os) && strings.contains(lower_name, expected_arch) {
-                    return asset.browser_download_url, asset.name
+    if ols {
+        platform := ols_platform_string()
+        for rel in releases {
+            if rel.tag_name == version {
+                for asset in rel.assets {
+                    lower_name := strings.to_lower(asset.name)
+                    if strings.contains(lower_name, platform) {
+                        url = asset.browser_download_url
+                        name = asset.name
+                    }
+                }
+            }
+        }
+        return url, name
+    } else {
+        for rel in releases {
+            if rel.tag_name == version {
+                for asset in rel.assets {
+                    lower_name := strings.to_lower(asset.name)
+                    if strings.contains(lower_name, expected_os) && strings.contains(lower_name, expected_arch) {
+                        return asset.browser_download_url, asset.name
+                    }
                 }
             }
         }
@@ -90,7 +110,7 @@ find_asset_for_platform :: proc(releases:[]Github_Release, version: string) -> (
     return "", ""
 }
 
-platform_strings :: proc() -> (os_str: string, arch_str: string) {
+platform_strings :: proc(ols := false) -> (os_str: string, arch_str: string) {
     if ODIN_OS == .Windows do os_str = "windows"
     else if ODIN_OS == .Darwin do os_str = "macos"
     else if ODIN_OS == .Linux do os_str = "linux"
@@ -99,4 +119,16 @@ platform_strings :: proc() -> (os_str: string, arch_str: string) {
     else if ODIN_ARCH == .arm64 do arch_str = "arm64"
     
     return os_str, arch_str
+}
+
+ols_platform_string :: proc() -> string {
+    when ODIN_OS == .Windows {
+        return "x86_64-pc-windows-msvc"
+    }  else when ODIN_OS == .Darwin {
+        when ODIN_ARCH == .arm64 do return "arm64-darwin"
+        else do return "x86_64-darwin"
+    } else {
+        when ODIN_ARCH == .arm64 do return "arm64-unknown-linux-gnu"
+        else do return "x86_64-unknown-linux-gnu"
+    }
 }

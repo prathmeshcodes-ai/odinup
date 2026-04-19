@@ -37,7 +37,7 @@ parse_args :: proc() -> (Command,[]string) {
 
     switch cmd_str {
     case "list", "ls":
-        if len(os.args) > 2 && os.args[2] == "-ols" {
+        if os.args[2] == "-ols" {
             return .ListOls, args
         } else if os.args[2][0] == '-' {
             fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
@@ -46,7 +46,7 @@ parse_args :: proc() -> (Command,[]string) {
         return .List, args
 
     case "list-remote", "lr":
-        if len(os.args) > 2 && os.args[2] == "-ols" {
+        if os.args[2] == "-ols" {
             return .ListRemoteOls, args
         } else if os.args[2][0] == '-' {
             fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
@@ -55,7 +55,7 @@ parse_args :: proc() -> (Command,[]string) {
         return .ListRemote, args
 
     case "install", "i":
-        if len(os.args) > 2 && os.args[2] == "-ols" {
+        if os.args[2] == "-ols" {
             return .InstallOls, args
         } else if os.args[2][0] == '-' {
             fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
@@ -64,7 +64,7 @@ parse_args :: proc() -> (Command,[]string) {
         return .Install, args
 
     case "use", "u":
-        if len(os.args) > 2 && os.args[2] == "-ols" {
+        if os.args[2] == "-ols" {
             return .UseOls, args
         } else if os.args[2][0] == '-' {
             fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)

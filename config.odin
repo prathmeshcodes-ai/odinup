@@ -31,8 +31,8 @@ init_config :: proc() {
 
     cfg.home_dir = home
     cfg.versions_dir, _ = filepath.join([]string{home, "versions"}, context.allocator)
-    cfg.odin_dir, _ = filepath.join([]string{home, "odin"}, context.allocator)
-    cfg.ols_dir, _ = filepath.join([]string{home, "ols"}, context.allocator)
+    cfg.odin_dir, _ = filepath.join([]string{cfg.versions_dir, "odin"}, context.allocator)
+    cfg.ols_dir, _ = filepath.join([]string{cfg.versions_dir, "ols"}, context.allocator)
     cfg.bin_dir, _ = filepath.join([]string{home, "bin"}, context.allocator)
 
     // We make sure the tree exists correctly

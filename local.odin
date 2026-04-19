@@ -107,9 +107,10 @@ use_version :: proc(version: string, ols: bool) {
             os.exit(1)
         }
 
-        exe_name := "ols"
-        if ODIN_OS == .Windows {
-            exe_name = "ols.exe"
+        platform := ols_platform_string()
+        exe_name := fmt.tprintf("ols-%s", platform)
+        when ODIN_OS == .Windows {
+            exe_name = fmt.tprintf("ols-%s.exe", platform)
         }
 
         target_exe := find_executable(version_path, exe_name)
@@ -118,7 +119,7 @@ use_version :: proc(version: string, ols: bool) {
             os.exit(1)
         }
 
-        create_wrapper_script(target_exe)
+        create_wrapper_script(target_exe, "ols")
         
         fmt.printf("%s%s✔ Successfully set Ols version to: %s%s\n", GREEN, BOLD, version, RESET)
         fmt.printf("\n%sNOTE:%s If your terminal still shows the ols version, run:\n", YELLOW, RESET)
@@ -131,7 +132,7 @@ use_version :: proc(version: string, ols: bool) {
         }
 
         exe_name := "odin"
-        if ODIN_OS == .Windows {
+        when ODIN_OS == .Windows {
             exe_name = "odin.exe"
         }
 
@@ -141,7 +142,7 @@ use_version :: proc(version: string, ols: bool) {
             os.exit(1)
         }
 
-        create_wrapper_script(target_exe)
+        create_wrapper_script(target_exe, "odin")
         
         fmt.printf("%s%s✔ Successfully set Odin version to: %s%s\n", GREEN, BOLD, version, RESET)
         fmt.printf("\n%sNOTE:%s If your terminal still shows the old version, run:\n", YELLOW, RESET)
