@@ -7,7 +7,7 @@ import "core:path/filepath"
 
 list_local :: proc(ols: bool) {
     if ols {
-        f, err := os.open(cfg.versions_dir)
+        f, err := os.open(cfg.ols_dir)
         if err != os.ERROR_NONE {
             fmt.eprintf("%s✖ Failed to open versions directory%s\n", RED, RESET)
             return
@@ -52,7 +52,7 @@ list_local :: proc(ols: bool) {
             }
         }
     } else {
-        f, err := os.open(cfg.versions_dir)
+        f, err := os.open(cfg.odin_dir)
         if err != os.ERROR_NONE {
             fmt.eprintf("%s✖ Failed to open versions directory%s\n", RED, RESET)
             return
@@ -101,7 +101,7 @@ list_local :: proc(ols: bool) {
 
 use_version :: proc(version: string, ols: bool) {
     if ols {
-        version_path, _ := filepath.join([]string{cfg.versions_dir, version}, context.allocator)
+        version_path, _ := filepath.join([]string{cfg.ols_dir, version}, context.allocator)
         if !os.exists(version_path) {
             fmt.eprintf("%s✖ Error: Version '%s' is not installed.%s\n", RED, version, RESET)
             os.exit(1)
@@ -124,7 +124,7 @@ use_version :: proc(version: string, ols: bool) {
         fmt.printf("\n%sNOTE:%s If your terminal still shows the ols version, run:\n", YELLOW, RESET)
         fmt.printf("  %sexport PATH=\"$HOME/.odinup/bin:$PATH\"%s\n", CYAN, RESET)
     } else {
-        version_path, _ := filepath.join([]string{cfg.versions_dir, version}, context.allocator)
+        version_path, _ := filepath.join([]string{cfg.odin_dir, version}, context.allocator)
         if !os.exists(version_path) {
             fmt.eprintf("%s✖ Error: Version '%s' is not installed.%s\n", RED, version, RESET)
             os.exit(1)

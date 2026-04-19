@@ -32,7 +32,7 @@ main :: proc() {
         }
         install_version(args[0], false)
     case .InstallOls:
-        if len(args) == 0 {
+        if len(args) < 2 {
             fmt.eprintln("Error: Please specify a version to install (e.g. dev-2026-04)")
             os.exit(1)
         }
@@ -53,7 +53,7 @@ main :: proc() {
         }
         use_version(args[0], false)
     case .UseOls:
-        if len(args) == 0 {
+        if len(args) < 2 {
             fmt.eprintln("%s✖ Error: Please specify a version to use (e.g. dev-2026-04) %s", RED, RESET)
             os.exit(1)
         }

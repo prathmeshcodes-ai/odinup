@@ -36,31 +36,29 @@ parse_args :: proc() -> (Command,[]string) {
     args := os.args[2:]
 
     switch cmd_str {
-    case "list-remote", "lr": 
-        if os.args[2] == "-ols" {
-            return .ListRemoteOls, args
-        } else {
-            return .ListRemote, args
-        }
-    case "list", "ls":        
-        if os.args[2] == "-ols" {
+    case "list", "ls":
+        if len(os.args) > 2 && os.args[2] == "-ols" {
             return .ListOls, args
-        } else {
-            return .List, args
         }
-    case "install", "i":      
-        switch os.args[2] {
-            case "-ols":
-                return .InstallOls, args
-            case:
-                return .Install, args
+        return .List, args
+
+    case "list-remote", "lr":
+        if len(os.args) > 2 && os.args[2] == "-ols" {
+            return .ListRemoteOls, args
         }
-    case "use", "u":          
-        if os.args[2] == "-ols" {
+        return .ListRemote, args
+
+    case "install", "i":
+        if len(os.args) > 2 && os.args[2] == "-ols" {
+            return .InstallOls, args
+        }
+        return .Install, args
+
+    case "use", "u":
+        if len(os.args) > 2 && os.args[2] == "-ols" {
             return .UseOls, args
-        } else {
-            return .Use, args
         }
+        return .Use, args
     case "env":               
         return .Env, args
     case "help", "-h", "--help": 

@@ -8,7 +8,7 @@ import "core:strings"
 install_version :: proc(version: string, ols: bool) {
     if ols {
         fmt.println("Ols")
-        dest_dir, _ := filepath.join([]string{cfg.versions_dir, version}, context.allocator)
+        dest_dir, _ := filepath.join([]string{cfg.ols_dir, version}, context.allocator)
         if os.exists(dest_dir) {
             fmt.printf("%s✔ Version %s is already installed.%s\n", GREEN, version, RESET)
             return
@@ -40,7 +40,7 @@ install_version :: proc(version: string, ols: bool) {
         fmt.printf("\n%s%sSuccessfully installed Ols %s!%s\n", GREEN, BOLD, version, RESET)
         fmt.printf("Type %sodinup use %s%s to activate it.\n", CYAN, version, RESET)
     } else {
-        dest_dir, _ := filepath.join([]string{cfg.versions_dir, version}, context.allocator)
+        dest_dir, _ := filepath.join([]string{cfg.odin_dir, version}, context.allocator)
         if os.exists(dest_dir) {
             fmt.printf("%s✔ Version %s is already installed.%s\n", GREEN, version, RESET)
             return

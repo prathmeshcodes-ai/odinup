@@ -1,5 +1,6 @@
 package odinup
 
+import "core:odin"
 import "core:os"
 import "core:fmt"
 import "core:path/filepath"
@@ -7,6 +8,8 @@ import "core:path/filepath"
 Config :: struct {
     home_dir:     string,
     versions_dir: string,
+    odin_dir:     string,
+    ols_dir:      string,
     bin_dir:      string,
 }
 
@@ -28,11 +31,15 @@ init_config :: proc() {
 
     cfg.home_dir = home
     cfg.versions_dir, _ = filepath.join([]string{home, "versions"}, context.allocator)
+    cfg.odin_dir, _ = filepath.join([]string{home, "odin"}, context.allocator)
+    cfg.ols_dir, _ = filepath.join([]string{home, "ols"}, context.allocator)
     cfg.bin_dir, _ = filepath.join([]string{home, "bin"}, context.allocator)
 
     // We make sure the tree exists correctly
     ensure_dir(cfg.home_dir)
     ensure_dir(cfg.versions_dir)
+    ensure_dir(cfg.odin_dir)
+    ensure_dir(cfg.ols_dir)
     ensure_dir(cfg.bin_dir)
 }
 

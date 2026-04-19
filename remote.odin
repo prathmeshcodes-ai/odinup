@@ -45,7 +45,7 @@ fetch_releases :: proc() ->[]Github_Release {
 }
 
 fetch_releases_ols :: proc() ->[]Github_Release {
-    url := "https://api.github.com/repos/odin-lang/Odin/releases"
+    url := "https://api.github.com/repos/DanielGavin/ols/releases"
     tmp_file, _ := filepath.join([]string{cfg.home_dir, "releases.json"}, context.allocator)
     defer os.remove(tmp_file)
 
