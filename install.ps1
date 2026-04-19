@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 
 # Helper for formatted output
 function Write-Color([string]$Text, [ConsoleColor]$Color, [switch]$NoNewline) {
-    if ($NoNewline) { Write-Host $Text -ForegroundColor $Color -NoNewline } 
+    if ($NoNewline) { Write-Host $Text -ForegroundColor $Color -NoNewline }
     else { Write-Host $Text -ForegroundColor $Color }
 }
 
@@ -50,7 +50,7 @@ if (Test-Path "$BinDir\odinup.exe") {
         Write-Color "`n✨ A new version of OdinUP is available!" -Color Yellow
         Write-Host "Current: " -NoNewline; Write-Color "$LocalVersion" -Color Red -NoNewline
         Write-Host " -> Latest: " -NoNewline; Write-Color "$LatestTag" -Color Green
-        
+
         $Choice = Read-Host "Do you want to update now? [y/N]"
         if ($Choice -match "^[yY]") {
             Write-Color "`nProceeding with update..." -Color Cyan
@@ -65,7 +65,7 @@ if (Test-Path "$BinDir\odinup.exe") {
 }
 
 # 4. Download & Extraction
-$TmpDir = Join-Path [System.IO.Path]::GetTempPath() "odinup_install_$([guid]::NewGuid().ToString().Substring(0,8))"
+$TmpDir = Join-Path ([System.IO.Path]::GetTempPath()) "odinup_install_$([guid]::NewGuid().ToString().Substring(0,8))"  # Fix 1: wrapped GetTempPath() in parens
 New-Item -ItemType Directory -Force -Path $TmpDir | Out-Null
 Set-Location $TmpDir
 
@@ -86,7 +86,7 @@ if (-not $Updating) {
     if ($UserPath -notmatch [regex]::Escape($BinDir)) {
         $NewPath = "$BinDir;$UserPath"
         [Environment]::SetEnvironmentVariable("PATH", $NewPath, "User")
-        $env:PATH = "$BinDir;$env:PATH" 
+        $env:PATH = "$BinDir;$env:PATH"
         Write-Color "✔ Permanently added OdinUP to Windows User PATH" -Color Green
     } else {
         Write-Color "✔ OdinUP is already configured in Windows User PATH" -Color Green

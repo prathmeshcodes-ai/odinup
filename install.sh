@@ -18,7 +18,7 @@ OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 
 if [ "$ARCH" = "x86_64" ]; then ARCH="amd64"; fi
-if [ "$ARCH" = "aarch64" ] ||[ "$ARCH" = "arm64" ]; then ARCH="arm64"; fi
+if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then ARCH="arm64"; fi  # Fix 1: missing space before [ 
 
 TARGET="odinup-${OS}-${ARCH}.tar.gz"
 echo -e "🔎 Detected System: ${CYAN}${OS}-${ARCH}${RESET}"
@@ -42,9 +42,9 @@ BIN_DIR="$ODINUP_HOME/bin"
 VERSION_FILE="$ODINUP_HOME/.version"
 UPDATING=false
 
-if[ -f "$BIN_DIR/odinup" ]; then
+if [ -f "$BIN_DIR/odinup" ]; then  # Fix 2: was if[ (missing space)
     LOCAL_VERSION="unknown"
-    if[ -f "$VERSION_FILE" ]; then
+    if [ -f "$VERSION_FILE" ]; then  # Fix 3: was if[ (missing space)
         LOCAL_VERSION=$(cat "$VERSION_FILE")
     fi
 
@@ -55,9 +55,9 @@ if[ -f "$BIN_DIR/odinup" ]; then
     else
         echo -e "\n${YELLOW}✨ A new version of OdinUP is available!${RESET}"
         echo -e "Current: ${RED}$LOCAL_VERSION${RESET} -> Latest: ${GREEN}$LATEST_TAG${RESET}"
-        
+
         read -p "Do you want to update now? [y/N]: " choice
-        case "$choice" in 
+        case "$choice" in
             y|Y ) echo -e "\n${CYAN}Proceeding with update...${RESET}"; UPDATING=true;;
             * ) echo -e "Update aborted."; exit 0;;
         esac
@@ -88,7 +88,7 @@ if [ "$UPDATING" = false ]; then
     ADDED_PATH=false
 
     for profile in "${PROFILE_FILES[@]}"; do
-        if[ -f "$profile" ]; then
+        if [ -f "$profile" ]; then  # Fix 4: was if[ (missing space)
             if ! grep -q "$BIN_DIR" "$profile"; then
                 echo "" >> "$profile"
                 echo "# OdinUP Environment" >> "$profile"
@@ -113,7 +113,7 @@ cd "$HOME"
 rm -rf "$TMP_DIR"
 
 echo -e "\n${BOLD}${GREEN}✨ OdinUP $LATEST_TAG successfully installed!${RESET}"
-if[ "$UPDATING" = false ]; then
+if [ "$UPDATING" = false ]; then  # Fix 5: was if[ (missing space)
     echo -e "Restart your terminal, or run: ${CYAN}source ~/.bashrc${RESET}"
 fi
 echo -e "Type ${CYAN}odinup help${RESET} to get started."
