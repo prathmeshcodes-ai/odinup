@@ -36,13 +36,15 @@ OdinUP is promising tool, you will see it as soon as possible.
 You need an existing Odin compiler to build the manager the first time. Once built, OdinUP becomes entirely self-sufficient.
 
 ### Step 1: Clone and Build
-Navigate to your workspace. Compile the source code. The `-opt:3` flag ensures the manager executes with maximum efficiency.
+Navigate to your workspace. Compile the source code. The `-o:speed` flag ensures the manager executes with maximum efficiency.
 
 ```bash
 git clone https://github.com/yourusername/odinup.git
 cd odinup
-odin build . -out:odinup -opt:3
+odin build . -o:speed 
 ```
+
+**NOTE:** Prebuilt Binary for `linux_amd64` is at `./bin` directory, if you have difrent target so do above steps. 
 
 ### Step 2: Initialize
 Run the executable once. This generates the hidden `.odinup` directory structure on your machine.
