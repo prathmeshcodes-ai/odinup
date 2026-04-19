@@ -37,38 +37,46 @@ parse_args :: proc() -> (Command,[]string) {
 
     switch cmd_str {
     case "list", "ls":
-        if os.args[2] == "-ols" {
-            return .ListOls, args
-        } else if os.args[2][0] == '-' {
-            fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
-            os.exit(1)
+        if len(os.args) > 2 {
+            if os.args[2] == "-ols" {
+                return .ListOls, args
+            } else if os.args[2][0] == '-' {
+                fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
+                os.exit(1)
+            }
         }
         return .List, args
 
     case "list-remote", "lr":
-        if os.args[2] == "-ols" {
-            return .ListRemoteOls, args
-        } else if os.args[2][0] == '-' {
-            fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
-            os.exit(1)
+        if len(os.args) > 2 {
+            if os.args[2] == "-ols" {
+                return .ListRemoteOls, args
+            } else if os.args[2][0] == '-' {
+                fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
+                os.exit(1)
+            }
         }
         return .ListRemote, args
 
     case "install", "i":
-        if os.args[2] == "-ols" {
-            return .InstallOls, args
-        } else if os.args[2][0] == '-' {
-            fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
-            os.exit(1)
+        if len(os.args) > 2 {
+            if os.args[2] == "-ols" {
+                return .InstallOls, args
+            } else if os.args[2][0] == '-' {
+                fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
+                os.exit(1)
+            }
         }
         return .Install, args
 
     case "use", "u":
-        if os.args[2] == "-ols" {
-            return .UseOls, args
-        } else if os.args[2][0] == '-' {
-            fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
-            os.exit(1)
+        if len(os.args) > 2 {
+            if os.args[2] == "-ols" {
+                return .UseOls, args
+            } else if os.args[2][0] == '-' {
+                fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", RED, os.args[2], RESET)
+                os.exit(1)
+            }
         }
         return .Use, args
     case "env":               
