@@ -1,2 +1,4 @@
 releases/
 build-steps.md
+refs/
+.gitignore
