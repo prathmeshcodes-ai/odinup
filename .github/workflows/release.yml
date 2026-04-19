@@ -1,0 +1,85 @@
+name: Build and Release OdinUP
+
+# This workflow triggers ONLY when you push a Git tag starting with 'v' (e.g., v1.0.0)
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Matrix sets up 5 independent parallel cloud servers
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux_amd64
+            name: odinup-linux-amd64
+            exe: odinup
+            setup_cmd: ""
+          - os: ubuntu-latest
+            target: linux_arm64
+            name: odinup-linux-arm64
+            exe: odinup
+            setup_cmd: "sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu"
+          - os: macos-latest
+            target: darwin_amd64
+            name: odinup-darwin-amd64
+            exe: odinup
+            setup_cmd: ""
+          - os: macos-latest
+            target: darwin_arm64
+            name: odinup-darwin-arm64
+            exe: odinup
+            setup_cmd: ""
+          - os: windows-latest
+            target: windows_amd64
+            name: odinup-windows-amd64
+            exe: odinup.exe
+            setup_cmd: ""
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Odin Compiler
+        uses: laytan/setup-odin@v2
+        with:
+          version: "latest" # Automatically pulls the latest Odin compiler
+
+      - name: Install Cross-Linker (Linux ARM64 only)
+        if: matrix.setup_cmd != ''
+        run: ${{ matrix.setup_cmd }}
+
+      - name: Compile OdinUP
+        run: odin build . -target:${{ matrix.target }} -out:${{ matrix.exe }} -o:speed
+
+      - name: Package Archive (Tar.gz)
+        run: tar -czf ${{ matrix.name }}.tar.gz ${{ matrix.exe }}
+
+      - name: Upload Artifact to Workflow
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: ${{ matrix.name }}.tar.gz
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to allow GitHub to create the Release page
+    steps:
+      - name: Download all Compiled Archives
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create Release & Attach Binaries
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*.tar.gz
+          generate_release_notes: true
