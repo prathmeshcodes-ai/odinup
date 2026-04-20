@@ -78,7 +78,7 @@ print_version :: proc() {
         fmt.eprintln("Please do reinstall/update to ensure the version file is created correctly.")
         fmt.println("OdinUP version unknown")
         fmt.println("A native tool to manage Odin and Ols")
-        fmt.println("GitHub: https://github.com/prathmeshcodes-ai/odinup")
+        fmt.println("GitHub: https://github.com/prathmesh-barot/odinup")
         return
     }
     defer delete(data, context.allocator)
@@ -91,5 +91,5 @@ print_version :: proc() {
 
     fmt.printfln("OdinUP version %s", version_str)
     fmt.println("A native tool to manage Odin and Ols")
-    fmt.println("GitHub: https://github.com/prathmeshcodes-ai/odinup")
+    fmt.println("GitHub: https://github.com/prathmesh-barot/odinup")
 }

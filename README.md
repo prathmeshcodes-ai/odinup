@@ -57,7 +57,7 @@ To update **OdinUP** do run installer script. Installer will handle updating its
 Open terminal and run:
 
 ```bash
-git clone https://github.com/prathmeshcodes-ai/odinup.git
+git clone https://github.com/prathmesh-barot/odinup.git
 cd odinup
 odin build . -o:speed 
 ```
