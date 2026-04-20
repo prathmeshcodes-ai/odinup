@@ -41,8 +41,8 @@ install_version :: proc(version: string, ols: bool) {
         }
 
         //fmt.printf("Successfully installed Ols %s!\n", version)
-        fmt.printf("\n%s%sSuccessfully installed Ols %s!%s\n", GREEN, BOLD, version, RESET)
-        fmt.printf("Type %sodinup use %s%s to activate it.\n", CYAN, version, RESET)
+        fmt.printf("\n%sSuccessfully installed Ols %s!%s\n", SUCCESS, version, RESET)
+        fmt.printf("Type %sodinup use %s%s to activate it.\n", B_CYAN, version, RESET)
     } else {
         dest_dir, _ := filepath.join([]string{cfg.odin_dir, version}, context.allocator)
         if os.exists(dest_dir) {
@@ -73,8 +73,8 @@ install_version :: proc(version: string, ols: bool) {
         }
 
         //fmt.printf("Successfully installed Odin %s!\n", version)
-        fmt.printf("\n%s%sSuccessfully installed Odin %s!%s\n", GREEN, BOLD, version, RESET)
-        fmt.printf("Type %sodinup use %s%s to activate it.\n", CYAN, version, RESET)
+        fmt.printf("\n%sSuccessfully installed Odin %s!%s\n", SUCCESS, version, RESET)
+        fmt.printf("Type %sodinup use %s%s to activate it.\n", B_CYAN, version, RESET)
     }
 }
 

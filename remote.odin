@@ -74,16 +74,14 @@ fetch_releases_ols :: proc() ->[]Github_Release {
 }
 
 list_remote :: proc(ols: bool) {
-    fmt.println("Fetching remote versions from GitHub...")
-    if ols {
-        releases := fetch_releases_ols()
-        for rel in releases {
-            fmt.printf("  %s\n", rel.tag_name)
-        }
-    } else {
-        releases := fetch_releases()
-        for rel in releases {
-            fmt.printf("  %s\n", rel.tag_name)
-        }
+    fmt.printf("%s🔍 Fetching remote versions from GitHub...%s\n", B_YELLOW, RESET)
+    releases := ols ? fetch_releases_ols() : fetch_releases()
+    
+    count := 0
+    for rel in releases {
+        fmt.printf("  %-15s", rel.tag_name)
+        count += 1
+        if count % 4 == 0 do fmt.println() // New line every 4 versions
     }
+    fmt.println("\n")
 }

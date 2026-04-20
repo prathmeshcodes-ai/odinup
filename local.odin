@@ -43,12 +43,11 @@ list_local :: proc(ols: bool) {
         }
 
         for info in fi {
-            if os.is_dir(info.fullpath) {
-                if info.name == active_version {
-                    fmt.printf("  %s%s ★ %s (Active)%s\n", GREEN, BOLD, info.name, RESET)
-                } else {
-                    fmt.printf("    %s\n", info.name)
-                }
+            if info.name == active_version {
+                // Background makes it impossible to miss
+                fmt.printf("  %s%s ★ %-10s %s%s Active %s\n", BG_GREEN, BLACK, info.name, BLACK, BG_WHITE, RESET)
+            } else {
+                fmt.printf("    %-10s\n", info.name)
             }
         }
     } else {
@@ -90,9 +89,10 @@ list_local :: proc(ols: bool) {
         for info in fi {
             if os.is_dir(info.fullpath) {
                 if info.name == active_version {
-                    fmt.printf("  %s%s ★ %s (Active)%s\n", GREEN, BOLD, info.name, RESET)
+                    // Background makes it impossible to miss
+                    fmt.printf("  %s%s ★ %-10s %s%s Active %s\n", BG_GREEN, BLACK, info.name, BLACK, BG_WHITE, RESET)
                 } else {
-                    fmt.printf("    %s\n", info.name)
+                    fmt.printf("    %-10s\n", info.name)
                 }
             }
         }

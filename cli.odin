@@ -10,15 +10,16 @@ BOLD      :: ansi.CSI + ansi.BOLD  + ansi.SGR
 ITALIC    :: ansi.CSI + ansi.ITALIC + ansi.SGR
 UNDERLINE :: ansi.CSI + ansi.UNDERLINE + ansi.SGR
 
-// Foreground (Standard Colors - 30-37)
+// Foreground 
 RED       :: ansi.CSI + ansi.FG_RED     + ansi.SGR
 GREEN     :: ansi.CSI + ansi.FG_GREEN   + ansi.SGR
 YELLOW    :: ansi.CSI + ansi.FG_YELLOW  + ansi.SGR
 BLUE      :: ansi.CSI + ansi.FG_BLUE    + ansi.SGR
 MAGENTA   :: ansi.CSI + ansi.FG_MAGENTA + ansi.SGR
 CYAN      :: ansi.CSI + ansi.FG_CYAN    + ansi.SGR
+BLACK     :: ansi.CSI + "30" + ansi.SGR
 
-// Bright Foreground (Manual ANSI Codes - 90-97)
+// Bright Foreground 
 GRAY      :: ansi.CSI + "90" + ansi.SGR 
 B_RED     :: ansi.CSI + "91" + ansi.SGR
 B_GREEN   :: ansi.CSI + "92" + ansi.SGR

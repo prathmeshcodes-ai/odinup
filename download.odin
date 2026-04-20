@@ -6,8 +6,8 @@ import "core:strings"
 
 download_asset :: proc(version: string, asset_url: string, dest_file: string) {
     //fmt.printf("Downloading %s from %s...\n", version, asset_url)
-    fmt.printf("%s📦 Downloading %s...%s\n", CYAN, version, RESET)
-    fmt.printf("%sURL: %s%s\n", "\x1b[90m", asset_url, RESET) // Dim text for URL
+    fmt.printf("%sDownloading %s...%s\n", B_CYAN, version, RESET)
+    fmt.printf("%sURL: %s%s\n", GRAY, asset_url, RESET)
     cmd := fmt.tprintf("curl -L --progress-bar \"%s\" -o \"%s\"", asset_url, dest_file)
     if run_command(cmd) != 0 {
         fmt.eprintf("%s✖ Error: Failed to download the release asset.%s\n", RED, RESET)

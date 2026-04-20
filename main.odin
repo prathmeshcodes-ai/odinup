@@ -24,46 +24,34 @@ main :: proc() {
             list_local(true)
         case .Install:
             if len(args) == 0 {
-                fmt.eprintln("Error: Please specify a version to install (e.g. dev-2026-04)")
+                fmt.eprintf("%s%s ERROR %s %sPlease specify a version to install.%s\n", BG_RED, BLACK, RESET, RED, RESET)
                 os.exit(1)
             }
             if !check_clang_availability() {
-                fmt.eprintln("%s✖ Error: clang not found. Please install clang before using odinup. %s", RED, RESET)
-                fmt.println("Note: Odin requires clang as its C backend compiler. You can download clang from https://releases.llvm.org/download.html")
+                fmt.eprintf("%s%s MISSING %s %sclang not found. Odin requires clang as its backend.%s\n", BG_YELLOW, BLACK, RESET, YELLOW, RESET)
                 os.exit(1)
             }
             install_version(args[0], false)
-        case .InstallOls:
-            if len(args) < 2 {
-                fmt.eprintln("Error: Please specify a version to install (e.g. dev-2026-04)")
-                os.exit(1)
-            }
-            if !check_clang_availability() {
-                fmt.eprintln("%s✖ Error: clang not found. Please install clang before using odinup. %s", RED, RESET)
-                fmt.println("Note: Odin requires clang as its C backend compiler. You can download clang from https://releases.llvm.org/download.html")
-                os.exit(1)
-            }
-            install_version(args[1], true)
+
         case .Use:
             if len(args) == 0 {
-                fmt.eprintln("%s✖ Error: Please specify a version to use (e.g. dev-2026-04) %s", RED, RESET)
-                os.exit(1)
-            }
-            if !check_clang_availability() {
-                fmt.eprintfln("%s✖ Error: clang not found. Please install clang before using %s. %s", RED, args[0], RESET)
+                fmt.eprintf("%s%s ERROR %s %sPlease specify a version (e.g. odinup use dev-2026-04)%s\n", BG_RED, BLACK, RESET, RED, RESET)
                 os.exit(1)
             }
             use_version(args[0], false)
+        case .InstallOls:
+            if len(args) == 0 {
+                fmt.eprintf("%s%s ERROR %s %sPlease specify an Ols version.%s\n", BG_RED, BLACK, RESET, RED, RESET)
+                os.exit(1)
+            }
+            install_version(args[0], true)
+
         case .UseOls:
-            if len(args) < 2 {
-                fmt.eprintln("%s✖ Error: Please specify a version to use (e.g. dev-2026-04) %s", RED, RESET)
+            if len(args) == 0 {
+                fmt.eprintf("%s%s ERROR %s %sPlease specify an Ols version.%s\n", BG_RED, BLACK, RESET, RED, RESET)
                 os.exit(1)
             }
-            if !check_clang_availability() {
-                fmt.eprintfln("%s✖ Error: clang not found. Please install clang before using %s. %s", RED, args[0], RESET)
-                os.exit(1)
-            }
-            use_version(args[1], true)
+            use_version(args[0], true)
         case .Env:
             print_env()
     }

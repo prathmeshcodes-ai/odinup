@@ -74,11 +74,12 @@ print_version :: proc() {
 
     data, err := os.read_entire_file(filename, context.allocator)
     if err != nil {
-        fmt.eprintfln("Warning: Could not read %s", filename)
-        fmt.eprintln("Please do reinstall/update to ensure the version file is created correctly.")
-        fmt.println("OdinUP version unknown")
-        fmt.println("A native tool to manage Odin and Ols")
-        fmt.println("GitHub: https://github.com/prathmesh-barot/odinup")
+        fmt.eprintf("%s%s⚠ Warning: Could not read %s%s\n", B_YELLOW, BOLD, filename, RESET)
+        fmt.eprintf("%sPlease reinstall or update to ensure the version file is created correctly.%s\n\n", GRAY, RESET)
+
+        fmt.printf("%s%sodinup%s %sversion unknown%s\n", BOLD, B_CYAN, RESET, B_RED, RESET)
+        fmt.printf("%sA native tool to manage Odin and Ols%s\n", GRAY, RESET)
+        fmt.printf("%sGitHub: %shttps://github.com/prathmesh-barot/odinup%s\n", GRAY, B_BLUE, RESET)
         return
     }
     defer delete(data, context.allocator)
@@ -89,7 +90,7 @@ print_version :: proc() {
         version_str = "unknown"
     }
 
-    fmt.printfln("OdinUP version %s", version_str)
-    fmt.println("A native tool to manage Odin and Ols")
-    fmt.println("GitHub: https://github.com/prathmesh-barot/odinup")
+    fmt.printf("%s%sodinup%s version %s%s%s\n", BOLD, B_CYAN, RESET, B_GREEN, version_str, RESET)
+    fmt.printf("%sA native tool to manage Odin and Ols%s\n", GRAY, RESET)
+    fmt.printf("%sGitHub: https://github.com/prathmesh-barot/odinup%s\n", B_BLUE, RESET)
 }
