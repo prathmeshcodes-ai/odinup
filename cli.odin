@@ -25,6 +25,7 @@ Command :: enum {
     Use,
     UseOls,
     Env,
+    Version,
 }
 
 parse_args :: proc() -> (Command,[]string) {
@@ -83,6 +84,8 @@ parse_args :: proc() -> (Command,[]string) {
         return .Env, args
     case "help", "-h", "--help": 
         return .Help, args
+    case "version", "-v", "--version":
+        return .Version, args
     case:
         fmt.eprintf("%s%s✖ Unknown command: %s%s\n\n", RED, BOLD, cmd_str, RESET)
         return .Help, args
@@ -94,14 +97,15 @@ print_usage :: proc() {
     fmt.printf("%sUsage:%s\n", BOLD, RESET)
     fmt.printf("  odinup <command> [args]\n\n")
     fmt.printf("%sCommands:%s\n", BOLD, RESET)
-    fmt.printf("  %s%-23s%s List all available versions of Odin from GitHub\n", GREEN, "list-remote, lr", RESET)
-    fmt.printf("  %s%-23s%s List all available versions of Ols from GitHub\n", GREEN, "list-remote -ols, lr -ols", RESET)
-    fmt.printf("  %s%-23s%s List locally installed versions of Odin\n", GREEN, "list, ls", RESET)
-    fmt.printf("  %s%-23s%s List locally installed versions of Ols\n", GREEN, "list -ols, ls -ols", RESET)
-    fmt.printf("  %s%-23s%s Download and install a specific version of Odin\n", GREEN, "install, i <version>", RESET)
-    fmt.printf("  %s%-23s%s Download and install a specific version of Ols\n", GREEN, "install -ols, i -ols <version>", RESET)
-    fmt.printf("  %s%-23s%s Set the given version as the active one of Odin\n", GREEN, "use, u <version>", RESET)
-    fmt.printf("  %s%-23s%s Set the given version as the active one of Ols\n", GREEN, "use -ols, u -ols <version>", RESET)
-    fmt.printf("  %s%-23s%s Print the environment variables to configure your shell\n", GREEN, "env", RESET)
-    fmt.printf("  %s%-23s%s Show this help message\n", GREEN, "help, -h", RESET)
+    fmt.printf("  %s%-23s%s     \t  List all available versions of Odin from GitHub\n", GREEN, "list-remote, lr", RESET)
+    fmt.printf("  %s%-23s%s     \t  List all available versions of Ols from GitHub\n", GREEN, "list-remote -ols, lr -ols", RESET)
+    fmt.printf("  %s%-23s%s     \t  List locally installed versions of Odin\n", GREEN, "list, ls", RESET)
+    fmt.printf("  %s%-23s%s     \t  List locally installed versions of Ols\n", GREEN, "list -ols, ls -ols", RESET)
+    fmt.printf("  %s%-23s%s     \t  Download and install a specific version of Odin\n", GREEN, "install <version>, i <version>", RESET)
+    fmt.printf("  %s%-23s%s     \t  Download and install a specific version of Ols\n", GREEN, "install -ols <version>, i -ols <version>", RESET)
+    fmt.printf("  %s%-23s%s     \t  Set the given version as the active one of Odin\n", GREEN, "use <version>, u <version>", RESET)
+    fmt.printf("  %s%-23s%s     \t  Set the given version as the active one of Ols\n", GREEN, "use -ols <version>, u -ols <version>", RESET)
+    fmt.printf("  %s%-23s%s     \t  Print the environment variables to configure your shell\n", GREEN, "env", RESET)
+    fmt.printf("  %s%-23s%s     \t  Show this help message\n", GREEN, "help, -h", RESET)
+    fmt.printf("  %s%-23s%s     \t  Print the version information\n", GREEN, "version, -v", RESET)
 }

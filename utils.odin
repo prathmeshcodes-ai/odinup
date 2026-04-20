@@ -68,3 +68,28 @@ create_wrapper_script :: proc(target_exe: string, bin_name: string) {
         }
     }
 }
+
+print_version :: proc() {
+    filename := fmt.tprintf("%s/.version", cfg.home_dir)
+
+    data, err := os.read_entire_file(filename, context.allocator)
+    if err != nil {
+        fmt.eprintfln("Warning: Could not read %s", filename)
+        fmt.eprintln("Please do reinstall/update to ensure the version file is created correctly.")
+        fmt.println("OdinUP version unknown")
+        fmt.println("A native tool to manage Odin and Ols")
+        fmt.println("GitHub: https://github.com/prathmeshcodes-ai/odinup")
+        return
+    }
+    defer delete(data, context.allocator)
+
+    version_str := strings.trim_space(string(data))
+
+    if version_str == "" {
+        version_str = "unknown"
+    }
+
+    fmt.printfln("OdinUP version %s", version_str)
+    fmt.println("A native tool to manage Odin and Ols")
+    fmt.println("GitHub: https://github.com/prathmeshcodes-ai/odinup")
+}
