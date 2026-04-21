@@ -18,7 +18,7 @@ ensure_dir :: proc(path: string) {
     if !os.exists(path) {
         err := os.make_directory(path)
         if err != os.ERROR_NONE {
-            fmt.eprintf("Failed to create directory %s: %v\n", path, err)
+            fmt.eprintf("%s%s ERROR %s %sFailed to create directory %s: %v%s\n", BG_RED, BLACK, RESET, RED, path, err, RESET)
             os.exit(1)
         }
     }
@@ -46,7 +46,7 @@ create_wrapper_script :: proc(target_exe: string, bin_name: string) {
         
         write_err := os.write_entire_file(bat_path, transmute([]u8)content)
         if write_err != nil {
-            fmt.eprintln("Error: Failed to write wrapper odin.bat script.")
+            fmt.eprintf("%s%s ERROR %s %sFailed to write wrapper odin.bat script.%s\n", BG_RED, BLACK, RESET, RED, RESET)
             os.exit(1)
         }
     } else {
@@ -57,14 +57,14 @@ create_wrapper_script :: proc(target_exe: string, bin_name: string) {
         
         write_err := os.write_entire_file(sh_path, transmute([]u8)content)
         if write_err != nil {
-            fmt.eprintln("Error: Failed to write wrapper sh script.")
+            fmt.eprintf("%s%s ERROR %s %sFailed to write wrapper sh script.%s\n", BG_RED, BLACK, RESET, RED, RESET)
             os.exit(1)
         }
         
         // Make the generated shell script executable on Linux/macOS
         chmod_cmd := fmt.tprintf("chmod +x \"%s\"", sh_path)
         if run_command(chmod_cmd) != 0 {
-            fmt.eprintf("Warning: Failed to make '%s' executable. You may need to run 'chmod +x' manually.\n", sh_path)
+            fmt.eprintf("%s%s WARNING %s %sFailed to make '%s' executable. You may need to run 'chmod +x' manually.\n", BG_YELLOW, BLACK, RESET, YELLOW, sh_path)
         }
     }
 }
@@ -74,7 +74,7 @@ print_version :: proc() {
 
     data, err := os.read_entire_file(filename, context.allocator)
     if err != nil {
-        fmt.eprintf("%s%s⚠ Warning: Could not read %s%s\n", B_YELLOW, BOLD, filename, RESET)
+        fmt.eprintf("%s%s WARNING %s %sCould not read %s%s\n", BG_YELLOW, BLACK, RESET, YELLOW, filename, RESET)
         fmt.eprintf("%sPlease reinstall or update to ensure the version file is created correctly.%s\n\n", GRAY, RESET)
 
         fmt.printf("%s%sodinup%s %sversion unknown%s\n", BOLD, B_CYAN, RESET, B_RED, RESET)

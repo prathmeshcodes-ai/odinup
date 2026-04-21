@@ -72,7 +72,7 @@ parse_args :: proc() -> (Command, []string) {
             if os.args[2] == "-ols" {
                 return .ListOls, args
             } else if os.args[2][0] == '-' {
-                fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", B_RED, os.args[2], RESET)
+                fmt.eprintf("%s%s UNKNOWN FLAG: %s %s %sDid you mean -ols?%s\n", BG_RED, BLACK, os.args[2], RESET, RED, RESET)
                 os.exit(1)
             }
         }
@@ -83,7 +83,7 @@ parse_args :: proc() -> (Command, []string) {
             if os.args[2] == "-ols" {
                 return .ListRemoteOls, args
             } else if os.args[2][0] == '-' {
-                fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", B_RED, os.args[2], RESET)
+                fmt.eprintf("%s%s UNKNOWN FLAG: %s %s %sDid you mean -ols?%s\n", BG_RED, BLACK, os.args[2], RESET, RED, RESET)
                 os.exit(1)
             }
         }
@@ -94,7 +94,7 @@ parse_args :: proc() -> (Command, []string) {
             if os.args[2] == "-ols" {
                 return .InstallOls, args
             } else if os.args[2][0] == '-' {
-                fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", B_RED, os.args[2], RESET)
+                fmt.eprintf("%s%s UNKNOWN FLAG: %s %s %sDid you mean -ols?%s\n", BG_RED, BLACK, os.args[2], RESET, RED, RESET)
                 os.exit(1)
             }
         }
@@ -105,7 +105,7 @@ parse_args :: proc() -> (Command, []string) {
             if os.args[2] == "-ols" {
                 return .UseOls, args
             } else if os.args[2][0] == '-' {
-                fmt.eprintf("%s✖ Unknown flag: %s. Did you mean -ols?%s\n", B_RED, os.args[2], RESET)
+                fmt.eprintf("%s%s UNKNOWN FLAG: %s %s %sDid you mean -ols?%s\n", BG_RED, BLACK, os.args[2], RESET, RED, RESET)
                 os.exit(1)
             }
         }

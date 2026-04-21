@@ -17,7 +17,7 @@ install_version :: proc(version: string, ols: bool) {
         asset_url, asset_name := find_asset_for_platform(releases, version, true)
         
         if asset_url == "" {
-            fmt.eprintf("%s✖ Error: Could not find a compatible binary for this OS/Arch for version %s%s\n", RED, version, RESET)
+            fmt.eprintf("%s%s ERROR %s %sCould not find a compatible binary for this OS/Arch for version %s%s\n", BG_RED, BLACK, RESET, RED, version, RESET)
             os.exit(1)
         }
 
@@ -54,7 +54,7 @@ install_version :: proc(version: string, ols: bool) {
         asset_url, asset_name := find_asset_for_platform(releases, version, false)
         
         if asset_url == "" {
-            fmt.eprintf("%s✖ Error: Could not find a compatible binary for this OS/Arch for version %s%s\n", RED, version, RESET)
+            fmt.eprintf("%s%s ERROR %s %sCould not find a compatible binary for this OS/Arch for version %s%s\n", BG_RED, BLACK, RESET, RED, version, RESET)
             os.exit(1)
         }
 

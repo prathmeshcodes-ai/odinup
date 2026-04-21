@@ -1,6 +1,5 @@
 package odinup
 
-import "core:odin"
 import "core:os"
 import "core:fmt"
 import "core:path/filepath"

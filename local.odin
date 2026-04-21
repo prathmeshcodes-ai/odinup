@@ -9,14 +9,14 @@ list_local :: proc(ols: bool) {
     if ols {
         f, err := os.open(cfg.ols_dir)
         if err != os.ERROR_NONE {
-            fmt.eprintf("%s✖ Failed to open versions directory%s\n", RED, RESET)
+            fmt.eprintf("%s%s ERROR %s %sFailed to open versions directory%s\n", BG_RED, BLACK, RESET, RED, RESET)
             return
         }
         defer os.close(f)
 
         fi, read_err := os.read_dir(f, -1, context.allocator)
         if read_err != os.ERROR_NONE {
-            fmt.eprintf("%s✖ Failed to read versions directory%s\n", RED, RESET)
+            fmt.eprintf("%s%s ERROR %s %sFailed to read versions directory%s\n", BG_RED, BLACK, RESET, RED, RESET)
             return
         }
 
@@ -53,14 +53,14 @@ list_local :: proc(ols: bool) {
     } else {
         f, err := os.open(cfg.odin_dir)
         if err != os.ERROR_NONE {
-            fmt.eprintf("%s✖ Failed to open versions directory%s\n", RED, RESET)
+            fmt.eprintf("%s%s ERROR %s %sFailed to open versions directory%s\n", BG_RED, BLACK, RESET, RED, RESET)
             return
         }
         defer os.close(f)
 
         fi, read_err := os.read_dir(f, -1, context.allocator)
         if read_err != os.ERROR_NONE {
-            fmt.eprintf("%s✖ Failed to read versions directory%s\n", RED, RESET)
+            fmt.eprintf("%s%s ERROR %s %sFailed to read versions directory%s\n", BG_RED, BLACK, RESET, RED, RESET)
             return
         }
 
@@ -103,7 +103,7 @@ use_version :: proc(version: string, ols: bool) {
     if ols {
         version_path, _ := filepath.join([]string{cfg.ols_dir, version}, context.allocator)
         if !os.exists(version_path) {
-            fmt.eprintf("%s✖ Error: Version '%s' is not installed.%s\n", RED, version, RESET)
+            fmt.eprintf("%s%s ERROR %s %sVersion '%s' is not installed.%s\n", BG_RED, BLACK, RESET, RED, version, RESET)
             os.exit(1)
         }
 
@@ -115,19 +115,19 @@ use_version :: proc(version: string, ols: bool) {
 
         target_exe := find_executable(version_path, exe_name)
         if target_exe == "" {
-            fmt.eprintf("%s✖ Error: Could not find Ols executable inside %s%s\n", RED, version_path, RESET)
+            fmt.eprintf("%s%s ERROR %s %sCould not find Ols executable inside %s%s\n", BG_RED, BLACK, RESET, RED, version_path, RESET)
             os.exit(1)
         }
 
         create_wrapper_script(target_exe, "ols")
         
         fmt.printf("%s%s✔ Successfully set Ols version to: %s%s\n", GREEN, BOLD, version, RESET)
-        fmt.printf("\n%sNOTE:%s If your terminal still shows the ols version, run:\n", YELLOW, RESET)
+        fmt.printf("\n%s%s NOTE %s If your terminal still shows the old version, run:\n", BG_YELLOW, BLACK, RESET)
         fmt.printf("  %sexport PATH=\"$HOME/.odinup/bin:$PATH\"%s\n", CYAN, RESET)
     } else {
         version_path, _ := filepath.join([]string{cfg.odin_dir, version}, context.allocator)
         if !os.exists(version_path) {
-            fmt.eprintf("%s✖ Error: Version '%s' is not installed.%s\n", RED, version, RESET)
+            fmt.eprintf("%s%s ERROR %s %sVersion '%s' is not installed.%s\n", BG_RED, BLACK, RESET, RED, version, RESET)
             os.exit(1)
         }
 
@@ -138,14 +138,14 @@ use_version :: proc(version: string, ols: bool) {
 
         target_exe := find_executable(version_path, exe_name)
         if target_exe == "" {
-            fmt.eprintf("%s✖ Error: Could not find Odin executable inside %s%s\n", RED, version_path, RESET)
+            fmt.eprintf("%s%s ERROR %s %sCould not find Odin executable inside %s%s\n", BG_RED, BLACK, RESET, RED, version_path, RESET)
             os.exit(1)
         }
 
         create_wrapper_script(target_exe, "odin")
         
         fmt.printf("%s%s✔ Successfully set Odin version to: %s%s\n", GREEN, BOLD, version, RESET)
-        fmt.printf("\n%sNOTE:%s If your terminal still shows the old version, run:\n", YELLOW, RESET)
+        fmt.printf("\n%s%s NOTE %s If your terminal still shows the old version, run:\n", BG_YELLOW, BLACK, RESET)
         fmt.printf("  %sexport PATH=\"$HOME/.odinup/bin:$PATH\"%s\n", CYAN, RESET)
     }
 }

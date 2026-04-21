@@ -23,13 +23,13 @@ fetch_releases :: proc() ->[]Github_Release {
     // Download JSON strictly using curl (standardized across Unix + modern Windows)
     cmd := fmt.tprintf("curl -s -L \"%s\" -o \"%s\"", url, tmp_file)
     if run_command(cmd) != 0 {
-        fmt.eprintln("Error: Failed to fetch releases from GitHub using curl.")
+        fmt.eprintfln("%s%s ERROR %s %sFailed to fetch releases from GitHub using curl. %s", BG_RED, BLACK, RESET, RED, RESET)
         os.exit(1)
     }
 
     data, read_err := os.read_entire_file_from_path(tmp_file, context.allocator)
     if read_err != nil {
-        fmt.eprintln("Error: Failed to read downloaded releases.json")
+        fmt.eprintfln("%s%s ERROR %s %sFailed to read downloaded releases.json %s", BG_RED, BLACK, RESET, RED, RESET)
         os.exit(1)
     }
     defer delete(data)
@@ -37,7 +37,7 @@ fetch_releases :: proc() ->[]Github_Release {
     releases:[]Github_Release
     err := json.unmarshal(data, &releases)
     if err != nil {
-        fmt.eprintln("Error: Failed to parse GitHub API JSON response.")
+        fmt.eprintln("%s%s ERROR %s %sFailed to parse GitHub API JSON response. %s", BG_RED, BLACK, RESET, RED, RESET)
         os.exit(1)
     }
 
@@ -52,13 +52,13 @@ fetch_releases_ols :: proc() ->[]Github_Release {
     // Download JSON strictly using curl (standardized across Unix + modern Windows)
     cmd := fmt.tprintf("curl -s -L \"%s\" -o \"%s\"", url, tmp_file)
     if run_command(cmd) != 0 {
-        fmt.eprintln("Error: Failed to fetch releases from GitHub using curl.")
+        fmt.eprintln("%s%s ERROR %s %sFailed to fetch releases from GitHub using curl. %s", BG_RED, BLACK, RESET, RED, RESET)
         os.exit(1)
     }
 
     data, read_err := os.read_entire_file_from_path(tmp_file, context.allocator)
     if read_err != nil {
-        fmt.eprintln("Error: Failed to read downloaded releases.json")
+        fmt.eprintln("%s%s ERROR %s %sFailed to read downloaded releases.json %s", BG_RED, BLACK, RESET, RED, RESET)
         os.exit(1)
     }
     defer delete(data)
@@ -66,7 +66,7 @@ fetch_releases_ols :: proc() ->[]Github_Release {
     releases:[]Github_Release
     err := json.unmarshal(data, &releases)
     if err != nil {
-        fmt.eprintln("Error: Failed to parse GitHub API JSON response.")
+        fmt.eprintln("%s%s ERROR %s %sFailed to parse GitHub API JSON response. %s", BG_RED, BLACK, RESET, RED, RESET)
         os.exit(1)
     }
 

@@ -2,7 +2,6 @@ package odinup
 
 import "core:fmt"
 import "core:os"
-import "core:strings"
 
 download_asset :: proc(version: string, asset_url: string, dest_file: string) {
     //fmt.printf("Downloading %s from %s...\n", version, asset_url)
