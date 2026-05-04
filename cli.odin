@@ -70,7 +70,11 @@ parse_args :: proc() -> (Command, []string) {
     case "list", "ls":
         if len(os.args) > 2 {
             if os.args[2] == "-ols" {
-                return .ListOls, args
+                if len(os.args) > 3 {
+                    // Return the version string after -ols
+                    return .ListOls, os.args[3:] 
+                }
+                return .ListOls, nil
             } else if os.args[2][0] == '-' {
                 fmt.eprintf("%s%s UNKNOWN FLAG: %s %s %sDid you mean -ols?%s\n", BG_RED, BLACK, os.args[2], RESET, RED, RESET)
                 os.exit(1)
@@ -81,7 +85,11 @@ parse_args :: proc() -> (Command, []string) {
     case "list-remote", "lr":
         if len(os.args) > 2 {
             if os.args[2] == "-ols" {
-                return .ListRemoteOls, args
+                if len(os.args) > 3 {
+                    // Return the version string after -ols
+                    return .ListRemoteOls, os.args[3:] 
+                }
+                return .ListRemoteOls, nil
             } else if os.args[2][0] == '-' {
                 fmt.eprintf("%s%s UNKNOWN FLAG: %s %s %sDid you mean -ols?%s\n", BG_RED, BLACK, os.args[2], RESET, RED, RESET)
                 os.exit(1)
@@ -92,7 +100,11 @@ parse_args :: proc() -> (Command, []string) {
     case "install", "i":
         if len(os.args) > 2 {
             if os.args[2] == "-ols" {
-                return .InstallOls, args
+                if len(os.args) > 3 {
+                    // Return the version string after -ols
+                    return .InstallOls, os.args[3:] 
+                }
+                return .InstallOls, nil
             } else if os.args[2][0] == '-' {
                 fmt.eprintf("%s%s UNKNOWN FLAG: %s %s %sDid you mean -ols?%s\n", BG_RED, BLACK, os.args[2], RESET, RED, RESET)
                 os.exit(1)
@@ -103,7 +115,11 @@ parse_args :: proc() -> (Command, []string) {
     case "use", "u":
         if len(os.args) > 2 {
             if os.args[2] == "-ols" {
-                return .UseOls, args
+                if len(os.args) > 3 {
+                    // Return the version string after -ols
+                    return .UseOls, os.args[3:] 
+                }
+                return .UseOls, nil
             } else if os.args[2][0] == '-' {
                 fmt.eprintf("%s%s UNKNOWN FLAG: %s %s %sDid you mean -ols?%s\n", BG_RED, BLACK, os.args[2], RESET, RED, RESET)
                 os.exit(1)

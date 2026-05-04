@@ -35,14 +35,19 @@ install_version :: proc(version: string, ols: bool) {
             extract_tar(tmp_archive, dest_dir)
         }
 
-        odinfmt_exe, _ := filepath.join([]string{dest_dir, fmt.tprintf("odinfmt-%s", ols_platform_string())}, context.allocator)
-        if os.exists(odinfmt_exe) {
-            create_wrapper_script(odinfmt_exe, "odinfmt")
+        // Use find_executable to handle nested folders in the OLS archive
+        platform := ols_platform_string()
+        fmt_exe_name := fmt.tprintf("odinfmt-%s", platform)
+        if ODIN_OS == .Windows do fmt_exe_name = fmt.tprintf("%s.exe", fmt_exe_name)
+
+        target_fmt := find_executable(dest_dir, fmt_exe_name)
+        if target_fmt != "" {
+            create_wrapper_script(target_fmt, "odinfmt")
         }
 
         //fmt.printf("Successfully installed Ols %s!\n", version)
         fmt.printf("\n%sSuccessfully installed Ols %s!%s\n", SUCCESS, version, RESET)
-        fmt.printf("Type %sodinup use %s%s to activate it.\n", B_CYAN, version, RESET)
+        fmt.printf("Type %sodinup use -ols %s%s to activate it.\n", B_CYAN, version, RESET)
     } else {
         dest_dir, _ := filepath.join([]string{cfg.odin_dir, version}, context.allocator)
         if os.exists(dest_dir) {

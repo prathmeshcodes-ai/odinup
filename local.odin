@@ -120,6 +120,15 @@ use_version :: proc(version: string, ols: bool) {
         }
 
         create_wrapper_script(target_exe, "ols")
+
+        fmt_exe_name := fmt.tprintf("odinfmt-%s", platform)
+        if ODIN_OS == .Windows do fmt_exe_name = fmt.tprintf("%s.exe", fmt_exe_name)
+
+        target_fmt := find_executable(version_path, fmt_exe_name)
+        if target_fmt != "" {
+            create_wrapper_script(target_fmt, "odinfmt")
+            fmt.printf("%s%s✔ Successfully set odinfmt version to: %s%s\n", GREEN, BOLD, version, RESET)
+        }
         
         fmt.printf("%s%s✔ Successfully set Ols version to: %s%s\n", GREEN, BOLD, version, RESET)
         fmt.printf("\n%s%s NOTE %s If your terminal still shows the old version, run:\n", BG_YELLOW, BLACK, RESET)
